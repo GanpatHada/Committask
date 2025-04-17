@@ -2090,6 +2090,7 @@ export namespace Prisma {
 
   export type TodoMinAggregateOutputType = {
     id: string | null
+    title: string | null
     completed: boolean | null
     userId: string | null
     createdAt: Date | null
@@ -2101,6 +2102,7 @@ export namespace Prisma {
 
   export type TodoMaxAggregateOutputType = {
     id: string | null
+    title: string | null
     completed: boolean | null
     userId: string | null
     createdAt: Date | null
@@ -2112,6 +2114,7 @@ export namespace Prisma {
 
   export type TodoCountAggregateOutputType = {
     id: number
+    title: number
     completed: number
     userId: number
     createdAt: number
@@ -2125,6 +2128,7 @@ export namespace Prisma {
 
   export type TodoMinAggregateInputType = {
     id?: true
+    title?: true
     completed?: true
     userId?: true
     createdAt?: true
@@ -2136,6 +2140,7 @@ export namespace Prisma {
 
   export type TodoMaxAggregateInputType = {
     id?: true
+    title?: true
     completed?: true
     userId?: true
     createdAt?: true
@@ -2147,6 +2152,7 @@ export namespace Prisma {
 
   export type TodoCountAggregateInputType = {
     id?: true
+    title?: true
     completed?: true
     userId?: true
     createdAt?: true
@@ -2231,13 +2237,14 @@ export namespace Prisma {
 
   export type TodoGroupByOutputType = {
     id: string
+    title: string
     completed: boolean
     userId: string
     createdAt: Date
     updatedAt: Date
     priority: $Enums.Priority
     description: string
-    dueDate: Date | null
+    dueDate: Date
     _count: TodoCountAggregateOutputType | null
     _min: TodoMinAggregateOutputType | null
     _max: TodoMaxAggregateOutputType | null
@@ -2259,6 +2266,7 @@ export namespace Prisma {
 
   export type TodoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
     completed?: boolean
     userId?: boolean
     createdAt?: boolean
@@ -2271,6 +2279,7 @@ export namespace Prisma {
 
   export type TodoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
     completed?: boolean
     userId?: boolean
     createdAt?: boolean
@@ -2283,6 +2292,7 @@ export namespace Prisma {
 
   export type TodoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
     completed?: boolean
     userId?: boolean
     createdAt?: boolean
@@ -2295,6 +2305,7 @@ export namespace Prisma {
 
   export type TodoSelectScalar = {
     id?: boolean
+    title?: boolean
     completed?: boolean
     userId?: boolean
     createdAt?: boolean
@@ -2304,7 +2315,7 @@ export namespace Prisma {
     dueDate?: boolean
   }
 
-  export type TodoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "completed" | "userId" | "createdAt" | "updatedAt" | "priority" | "description" | "dueDate", ExtArgs["result"]["todo"]>
+  export type TodoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "completed" | "userId" | "createdAt" | "updatedAt" | "priority" | "description" | "dueDate", ExtArgs["result"]["todo"]>
   export type TodoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2322,13 +2333,14 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      title: string
       completed: boolean
       userId: string
       createdAt: Date
       updatedAt: Date
       priority: $Enums.Priority
       description: string
-      dueDate: Date | null
+      dueDate: Date
     }, ExtArgs["result"]["todo"]>
     composites: {}
   }
@@ -2754,6 +2766,7 @@ export namespace Prisma {
    */
   interface TodoFieldRefs {
     readonly id: FieldRef<"Todo", 'String'>
+    readonly title: FieldRef<"Todo", 'String'>
     readonly completed: FieldRef<"Todo", 'Boolean'>
     readonly userId: FieldRef<"Todo", 'String'>
     readonly createdAt: FieldRef<"Todo", 'DateTime'>
@@ -3202,6 +3215,7 @@ export namespace Prisma {
 
   export const TodoScalarFieldEnum: {
     id: 'id',
+    title: 'title',
     completed: 'completed',
     userId: 'userId',
     createdAt: 'createdAt',
@@ -3369,25 +3383,27 @@ export namespace Prisma {
     OR?: TodoWhereInput[]
     NOT?: TodoWhereInput | TodoWhereInput[]
     id?: StringFilter<"Todo"> | string
+    title?: StringFilter<"Todo"> | string
     completed?: BoolFilter<"Todo"> | boolean
     userId?: StringFilter<"Todo"> | string
     createdAt?: DateTimeFilter<"Todo"> | Date | string
     updatedAt?: DateTimeFilter<"Todo"> | Date | string
     priority?: EnumPriorityFilter<"Todo"> | $Enums.Priority
     description?: StringFilter<"Todo"> | string
-    dueDate?: DateTimeNullableFilter<"Todo"> | Date | string | null
+    dueDate?: DateTimeFilter<"Todo"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type TodoOrderByWithRelationInput = {
     id?: SortOrder
+    title?: SortOrder
     completed?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     priority?: SortOrder
     description?: SortOrder
-    dueDate?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -3396,25 +3412,27 @@ export namespace Prisma {
     AND?: TodoWhereInput | TodoWhereInput[]
     OR?: TodoWhereInput[]
     NOT?: TodoWhereInput | TodoWhereInput[]
+    title?: StringFilter<"Todo"> | string
     completed?: BoolFilter<"Todo"> | boolean
     userId?: StringFilter<"Todo"> | string
     createdAt?: DateTimeFilter<"Todo"> | Date | string
     updatedAt?: DateTimeFilter<"Todo"> | Date | string
     priority?: EnumPriorityFilter<"Todo"> | $Enums.Priority
     description?: StringFilter<"Todo"> | string
-    dueDate?: DateTimeNullableFilter<"Todo"> | Date | string | null
+    dueDate?: DateTimeFilter<"Todo"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "id">
 
   export type TodoOrderByWithAggregationInput = {
     id?: SortOrder
+    title?: SortOrder
     completed?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     priority?: SortOrder
     description?: SortOrder
-    dueDate?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
     _count?: TodoCountOrderByAggregateInput
     _max?: TodoMaxOrderByAggregateInput
     _min?: TodoMinOrderByAggregateInput
@@ -3425,13 +3443,14 @@ export namespace Prisma {
     OR?: TodoScalarWhereWithAggregatesInput[]
     NOT?: TodoScalarWhereWithAggregatesInput | TodoScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Todo"> | string
+    title?: StringWithAggregatesFilter<"Todo"> | string
     completed?: BoolWithAggregatesFilter<"Todo"> | boolean
     userId?: StringWithAggregatesFilter<"Todo"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Todo"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Todo"> | Date | string
     priority?: EnumPriorityWithAggregatesFilter<"Todo"> | $Enums.Priority
     description?: StringWithAggregatesFilter<"Todo"> | string
-    dueDate?: DateTimeNullableWithAggregatesFilter<"Todo"> | Date | string | null
+    dueDate?: DateTimeWithAggregatesFilter<"Todo"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -3496,78 +3515,85 @@ export namespace Prisma {
 
   export type TodoCreateInput = {
     id?: string
+    title: string
     completed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     priority?: $Enums.Priority
     description: string
-    dueDate?: Date | string | null
+    dueDate: Date | string
     user: UserCreateNestedOneWithoutTodosInput
   }
 
   export type TodoUncheckedCreateInput = {
     id?: string
+    title: string
     completed?: boolean
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     priority?: $Enums.Priority
     description: string
-    dueDate?: Date | string | null
+    dueDate: Date | string
   }
 
   export type TodoUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     priority?: EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
     description?: StringFieldUpdateOperationsInput | string
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTodosNestedInput
   }
 
   export type TodoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     priority?: EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
     description?: StringFieldUpdateOperationsInput | string
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TodoCreateManyInput = {
     id?: string
+    title: string
     completed?: boolean
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     priority?: $Enums.Priority
     description: string
-    dueDate?: Date | string | null
+    dueDate: Date | string
   }
 
   export type TodoUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     priority?: EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
     description?: StringFieldUpdateOperationsInput | string
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TodoUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     priority?: EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
     description?: StringFieldUpdateOperationsInput | string
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3698,17 +3724,6 @@ export namespace Prisma {
     not?: NestedEnumPriorityFilter<$PrismaModel> | $Enums.Priority
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -3716,6 +3731,7 @@ export namespace Prisma {
 
   export type TodoCountOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
     completed?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
@@ -3727,6 +3743,7 @@ export namespace Prisma {
 
   export type TodoMaxOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
     completed?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
@@ -3738,6 +3755,7 @@ export namespace Prisma {
 
   export type TodoMinOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
     completed?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
@@ -3777,20 +3795,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPriorityFilter<$PrismaModel>
     _max?: NestedEnumPriorityFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type TodoCreateNestedManyWithoutUserInput = {
@@ -3859,10 +3863,6 @@ export namespace Prisma {
 
   export type EnumPriorityFieldUpdateOperationsInput = {
     set?: $Enums.Priority
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutTodosNestedInput = {
@@ -3980,17 +3980,6 @@ export namespace Prisma {
     not?: NestedEnumPriorityFilter<$PrismaModel> | $Enums.Priority
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -4023,38 +4012,26 @@ export namespace Prisma {
     _max?: NestedEnumPriorityFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type TodoCreateWithoutUserInput = {
     id?: string
+    title: string
     completed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     priority?: $Enums.Priority
     description: string
-    dueDate?: Date | string | null
+    dueDate: Date | string
   }
 
   export type TodoUncheckedCreateWithoutUserInput = {
     id?: string
+    title: string
     completed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     priority?: $Enums.Priority
     description: string
-    dueDate?: Date | string | null
+    dueDate: Date | string
   }
 
   export type TodoCreateOrConnectWithoutUserInput = {
@@ -4088,13 +4065,14 @@ export namespace Prisma {
     OR?: TodoScalarWhereInput[]
     NOT?: TodoScalarWhereInput | TodoScalarWhereInput[]
     id?: StringFilter<"Todo"> | string
+    title?: StringFilter<"Todo"> | string
     completed?: BoolFilter<"Todo"> | boolean
     userId?: StringFilter<"Todo"> | string
     createdAt?: DateTimeFilter<"Todo"> | Date | string
     updatedAt?: DateTimeFilter<"Todo"> | Date | string
     priority?: EnumPriorityFilter<"Todo"> | $Enums.Priority
     description?: StringFilter<"Todo"> | string
-    dueDate?: DateTimeNullableFilter<"Todo"> | Date | string | null
+    dueDate?: DateTimeFilter<"Todo"> | Date | string
   }
 
   export type UserCreateWithoutTodosInput = {
@@ -4147,42 +4125,46 @@ export namespace Prisma {
 
   export type TodoCreateManyUserInput = {
     id?: string
+    title: string
     completed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     priority?: $Enums.Priority
     description: string
-    dueDate?: Date | string | null
+    dueDate: Date | string
   }
 
   export type TodoUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     priority?: EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
     description?: StringFieldUpdateOperationsInput | string
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TodoUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     priority?: EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
     description?: StringFieldUpdateOperationsInput | string
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TodoUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     priority?: EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
     description?: StringFieldUpdateOperationsInput | string
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

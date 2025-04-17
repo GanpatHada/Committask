@@ -32,11 +32,12 @@ enum Priority {
 model Todo {
   id          String    @id @unique @default(cuid())
   user        User      @relation(fields: [userId], references: [id])
+  title       String    
   completed   Boolean   @default(false)
   userId      String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   priority    Priority  @default(MEDIUM)
   description String
-  dueDate     DateTime?
+  dueDate     DateTime
 }
