@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import {addTodoSchema, deleteTodoSchema} from "@/schemas/task.schema"
+import {addTodoSchema} from "@/schemas/task.schema"
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/lib/requireAuth";
 import ApiError from "@/lib/errors/apiError";
@@ -51,7 +51,7 @@ export async function POST(req:Request) {
         title: parsedData.title,
         description: parsedData.description,
         dueDate: parsedData.dueDate,
-        priority: parsedData.priority || "MEDIUM",
+        priority: parsedData.priority,
         userId:user.id,
       },
     });
@@ -70,55 +70,11 @@ export async function POST(req:Request) {
       success: false,
       message: error.message
     }
+     if(error instanceof z.ZodError)
+            responseBody.message='Validation Error'
     if(error.errors && error.errors.length > 0)
       responseBody.errors=error.errors.map((e:{ message: string }) => e.message || e);
      return NextResponse.json(responseBody,{status: error.statusCode});
   }
 }
 
-export async function DELETE(req: Request) {
-  try {
-    let body = await req.text();
-
-    if (!body.trim()) {
-      throw new ApiError(400, "Body is missing");
-    }
-    body = JSON.parse(body);
-    const parsedData = deleteTodoSchema.parse(body);
-
-    const user = await requireAuth();
-
-    const existingTodo = await prisma.todo.findUnique({
-      where: { id: parsedData.todoId },
-    });
-
-    if (!existingTodo || existingTodo.userId !== user.id) {
-      throw new ApiError(404, "Todo not found or not authorized to delete it");
-    }
-
-    await prisma.todo.delete({
-      where: { id: parsedData.todoId },
-    });
-
-    return NextResponse.json(
-      {
-        message: "Task deleted successfully",
-        success: true,
-        data : parsedData.todoId
-      },
-      { status: 200 }
-    );
-  } 
-  catch (error:any) {
-    console.log(error);
-    const responseBody:any={
-      success: false,
-      message: error.message
-    }
-    if(error instanceof z.ZodError)
-      responseBody.message='Validation Error'
-    if(error.errors && error.errors.length > 0)
-      responseBody.errors=error.errors.map((e:{message:string}) => e.message || e);
-     return NextResponse.json(responseBody,{status: error.statusCode});
-   }
-}
