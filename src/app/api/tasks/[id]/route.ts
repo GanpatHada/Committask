@@ -2,16 +2,16 @@ import ApiError from "@/lib/errors/apiError";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/requireAuth";
 import { updateTodoSchema } from "@/schemas/task.schema";
+import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req:NextApiRequest,{ params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
-    if (!id || id.length === 0)
+    const { id } = await params;
+    if (!id || Array.isArray(id))
       throw new ApiError(400, "Todo not found with this id");
     const user = await requireAuth();
     const existingTodo = await prisma.todo.findUnique({
@@ -38,7 +38,6 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (error: any) {
-    console.log(error);
     const responseBody: any = {
       success: false,
       message: error.message,
@@ -52,17 +51,16 @@ export async function DELETE(
 }
 
 export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req:NextApiRequest,res:NextApiResponse,{ params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
-    if (!id || id.length === 0)
+    const { id } = await params;
+    if (!id || Array.isArray(id))
       throw new ApiError(400, "Todo not found with this id");
-    let body = await req.text();
-    if (!body.trim()) throw new ApiError(400, "Body is missing");
-    body = JSON.parse(body);
-    const parsedData = updateTodoSchema.parse(body);
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ message: 'Request body is empty' });
+    }
+    const parsedData = updateTodoSchema.parse(req.body);
     const user = await requireAuth();
     const existingTodo = await prisma.todo.findUnique({
       where: { id },
@@ -76,7 +74,7 @@ export async function PUT(
         "this is not your todo",
       ]);
     const updatedTodo = await prisma.todo.update({
-      where: { id: params.id },
+      where: {id},
       data: { ...parsedData, id, userId: user.id },
     });
     return NextResponse.json(
@@ -88,7 +86,7 @@ export async function PUT(
       { status: 200 }
     );
   } catch (error: any) {
-    console.log(error);
+  
     const responseBody: any = {
       success: false,
       message: error.message,

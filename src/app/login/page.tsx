@@ -4,8 +4,10 @@ import { useState } from "react";
 import { GoogleSignInButton } from "@/components/SignInWithGoogle";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router=useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
@@ -38,7 +40,7 @@ export default function LoginPage() {
       try {
         setLoading(true);
         const res = await signIn("credentials", {
-          redirect: true,
+          redirect: false,
           callbackUrl: '/', 
           email,
           password,
@@ -47,6 +49,7 @@ export default function LoginPage() {
           throw(res.error);
         } else {
           toast.success('Login successfull');
+          router.push('/');
         }
       } catch (error:any) {
         toast.error(error)

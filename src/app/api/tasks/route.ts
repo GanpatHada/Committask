@@ -22,7 +22,6 @@ export async function GET(){
      { status: 201 }
    );
    } catch (error: any) {
-    console.log(error);
     const responseBody: any = {
       success: false,
       message: error.message,
@@ -65,7 +64,6 @@ export async function POST(req:Request) {
       { status: 201 }
     );
   } catch (error:any) {
-    console.log(error);
     const responseBody:any={
       success: false,
       message: error.message

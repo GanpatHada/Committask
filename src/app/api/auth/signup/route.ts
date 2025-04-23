@@ -39,7 +39,6 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.log(error)
     if (error instanceof z.ZodError) {
         const errorMessage = error.errors[0].message;
         return NextResponse.json(

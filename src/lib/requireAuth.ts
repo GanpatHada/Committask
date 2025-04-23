@@ -7,7 +7,6 @@ import ApiError from "./errors/apiError";
 
 export async function requireAuth() {
   const session = await getServerSession(authOptions);
-
   if (!session || !session.user?.id) {
     throw new ApiError(401, "Unauthorized access",["user is not authorized or token missing"]);
   }
