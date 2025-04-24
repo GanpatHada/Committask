@@ -6,13 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 // DELETE route handler
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest,{ params }: { params: Promise<{ id: string }> }) {
   try {
     // Safely destructure params and ensure `id` is a string
-    const { id } = params;
+    const { id } = await params;
     if (!id || Array.isArray(id)) {
       throw new ApiError(400, "Todo not found with this id");
     }
@@ -60,13 +57,11 @@ export async function DELETE(
 }
 
 // PUT route handler
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest,{ params }: { params: Promise<{ id: string }> }) 
+{
   try {
     // Safely destructure params and ensure `id` is a string
-    const { id } = params;
+    const { id } = await params;
     if (!id || Array.isArray(id)) {
       throw new ApiError(400, "Todo not found with this id");
     }
