@@ -1,5 +1,5 @@
 import { closeDialog } from '@/store/slices/dialogSlice'
-import { AddToDo, addTodo } from '@/store/slices/todoSlice'
+import { AddToDo, addTodo, updateTodo } from '@/store/slices/todoSlice'
 import { AppDispatch, RootState } from '@/store/store'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,10 +8,13 @@ import DialogLoader from './DialogLoader'
 const AddEditDialog:React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [completed, setCompleted] = useState<boolean>(false)
-  const loading = useSelector((state: RootState) => state.todos.loading.create);
+  const addloading = useSelector((state: RootState) => state.todos.loading.create);
+  const updateloading = useSelector((state: RootState) => state.todos.loading.update);
   const { id: currentTodoId, mode } = useSelector((state: RootState) => state.dialog);
   const todos = useSelector((state: RootState) => state.todos.todos)
   const dispatch = useDispatch<AppDispatch>();
+
+  console.log(currentTodoId);
   
   const priorities = ['low', 'medium', 'high'];
 
@@ -83,7 +86,13 @@ const AddEditDialog:React.FC = () => {
       dueDate: new Date(dueDate).toISOString(),
     };
     try {
-      await dispatch(addTodo(newTodo)).unwrap();
+      if(mode==='ADD_TODO')
+        await dispatch(addTodo(newTodo)).unwrap();
+      else
+      await dispatch(updateTodo({ 
+        todoId: currentTodoId || "",
+        updatedTodo: { ...newTodo, completed }
+      })).unwrap();
       setFormData({ title: '', description: '', priority: '', dueDate: '' });
     } catch (err) {
       throw err;
@@ -114,12 +123,12 @@ const AddEditDialog:React.FC = () => {
 
   return (
       <div className='flex-1'>
-        {loading && <DialogLoader />}
+        {(addloading || updateloading) && <DialogLoader />}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-gray-700 dark:text-zinc-200">{getDialogMode()}</h2>
             <label className='flex cursor-pointer select-none items-center'>
-              <div className='relative z-[-1] mr-2'>
+              {mode==='EDIT_TODO'&&<div className='relative z-[-1] mr-2'>
                 <input
                   type='checkbox'
                   checked={completed}
@@ -128,7 +137,7 @@ const AddEditDialog:React.FC = () => {
                 />
                 <div className='block h-7 w-13 rounded-full bg-gray-300 peer-checked:bg-green-500 transition-colors'></div>
                 <div className='absolute left-1 top-1 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-6'></div>
-              </div>
+              </div>}
             </label>
           </div>
           {/* Task Title */}
@@ -210,7 +219,7 @@ const AddEditDialog:React.FC = () => {
               type="submit"
               className="flex-1/5 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition"
             >
-              Save Task
+              {mode==='ADD_TODO'?'Add':'Update'} Task
             </button>
           </div>
         </form>
