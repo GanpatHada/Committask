@@ -72,13 +72,13 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
       }`}
     >
       <div className="flex flex-col">
-        <h1 className="font-[500]leading-tight text-gray-800 text-md dark:text-zinc-200">
+        <h1 className="font-[500]leading-tight font-semibold text-gray-700 text-lg dark:text-zinc-200">
           {title}{" "}
           <span
             title={capitalize(priority) + " priority"}
             className={`${getPriorityColor(
               priority as Priority
-            )} text-xs px-2 py-0.5 font-normal justify-center ml-1 rounded-xl`}
+            )} text-xs relative top-[-2] px-2 py-0.5 font-normal justify-center rounded-xl`}
           >
             {priority}
           </span>
@@ -95,7 +95,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
           <span>{getRemainingDays(dueDate)}</span>
         </p>
 
-        <span className="mt-4 text-sm text-gray-400 dark:text-zinc-500">
+        <span className="mt-4 text-xs text-gray-400 dark:text-zinc-500">
           {dayjs(createdAt).format("DD MMM YYYY")} |&nbsp;
           {dayjs(createdAt).format("hh:mm A")}
         </span>
