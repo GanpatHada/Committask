@@ -2,7 +2,9 @@
 import Dialog from "@/components/dialog/Dialog";
 import Loading from "@/components/Loading";
 import Navbar from "@/components/Navbar";
+import NoTask from "@/components/NoTask";
 import Sidebar from "@/components/Sidebar";
+import TaskLoading from "@/components/TaskLoading";
 import TodoCard from "@/components/TodoCard";
 import { fetchTodos, Todo } from "@/store/slices/todoSlice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -25,12 +27,17 @@ function Todos() {
   }
 
   return (
-    <div id="todos-wrapper" className="flex-1 flex overflow-auto p-4">
+    <div id="todos-wrapper" className="flex-1 flex overflow-auto bg-gray-50/50 dark:bg-zinc-800">
       {
-        read ? <div>Loading</div> : <div id="todos" className={`flex-1 grid ${view === 'ROWS' ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-3'} auto-rows-max gap-3 max-w-7xl mx-auto`}>
-          {getTodos()?.map(todo => {
-            return <TodoCard key={todo.id} todo={todo} />
-          })}
+        <div id="todos" className={`p-4 grid ${view === 'ROWS' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3'} auto-rows-auto h-fit gap-3 max-w-7xl w-full mx-auto`}>
+          {
+            read ? <TaskLoading /> : <>
+              {getTodos()?.length > 0 ? getTodos().map(todo => {
+                return <TodoCard key={todo.id} todo={todo} />
+              }) : <NoTask />}
+            </>
+          }
+
         </div>}
     </div>
   )

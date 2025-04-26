@@ -17,11 +17,11 @@ const handleOpenAddTodoDialog=()=>{
 }
 
   return (
-    <nav className='flex items-center bg-white py-6 px-5 dark:bg-zinc-800 justify-between dark:border-b-1 shadow-md dark:shadow-none dark:border-zinc-700'>
-         <div className='flex items-center gap-2'><button onClick={()=>dispatch(openSidebar())} className={`text-zinc-400 ${isOpen?'hidden':'inline-block'}`}><PanelLeftOpen /></button><h1 className='text-2xl font-bold text-zinc-700 dark:text-zinc-300'>All Tasks</h1></div> 
+    <nav className='flex items-center bg-white py-4 px-4 dark:bg-zinc-800 justify-between dark:border-b-1 shadow-md dark:shadow-none dark:border-zinc-700'>
+         <div className='flex items-center gap-1'><button onClick={()=>dispatch(openSidebar())} className={`text-zinc-400 ${isOpen?'hidden':'inline-block'}`}><PanelLeftOpen /></button><h1 className='text-xl font-bold text-purple-500'>Committask</h1></div> 
          <div className='flex gap-2'>
-              <button onClick={handleOpenAddTodoDialog} className='flex gap-1 bg-violet-500 rounded-md text-white px-3 py-2'><span><Plus /></span>Add Task</button>
-              <button onClick={()=>dispatch(toggleView())} className='text-gray-600 dark:text-zinc-500'>{view==='ROWS'?<LayoutGrid size={18}/>:<Rows3 size={18} />}</button>
+              <button onClick={handleOpenAddTodoDialog} className='flex gap-1 bg-purple-500 rounded-md text-white px-3 py-2'><span><Plus /></span><span className='sm:inline hidden'>Add Task</span></button>
+              <button onClick={()=>dispatch(toggleView())} className='text-gray-600 sm:inline hidden dark:text-zinc-500'>{view==='ROWS'?<LayoutGrid size={18}/>:<Rows3 size={18} />}</button>
          </div>
     </nav>
   )

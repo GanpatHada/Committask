@@ -127,22 +127,23 @@ const AddEditDialog:React.FC = () => {
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-gray-700 dark:text-zinc-200">{getDialogMode()}</h2>
-            <label className='flex cursor-pointer select-none items-center'>
-              {mode==='EDIT_TODO'&&<div className='relative z-[-1] mr-2'>
+            {mode==='EDIT_TODO'&&<label className='flex gap-2 cursor-pointer select-none items-center ring-1 p-2 rounded-md ring-gray-200 dark:ring-zinc-600'>
+              <p className={`${completed?'text-green-500 dark:text-green-300':'text-gray-300 dark:text-zinc-500'}`}>Completed</p>
+              <div className='relative z-[-1]'>
                 <input
                   type='checkbox'
                   checked={completed}
                   onChange={handleTaskCompleted}
                   className='sr-only peer'
                 />
-                <div className='block h-7 w-13 rounded-full bg-gray-300 peer-checked:bg-green-500 transition-colors'></div>
-                <div className='absolute left-1 top-1 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-6'></div>
-              </div>}
-            </label>
+                <div className='block h-6 w-12 rounded-full bg-gray-300 dark:bg-zinc-500 peer-checked:bg-green-500 transition-colors'></div>
+                <div className='absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-6'></div>
+                </div>
+            </label>}
           </div>
           {/* Task Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-zinc-200">Task Title</label>
+            <label htmlFor="title" className="block  text-sm font-medium text-gray-700 dark:text-zinc-200">Task Title</label>
             <input
               type="text"
               maxLength={50}
@@ -150,8 +151,8 @@ const AddEditDialog:React.FC = () => {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              placeholder="Enter task title"
-              className={`mt-1 w-full rounded-md border px-3 py-2 dark:text-zinc-300 focus:border-purple-500 focus:outline-0 ${errors.title ? 'border-red-600 dark:border-red-400' : 'border-gray-300 dark:border-zinc-600'
+              placeholder="Enter task title "
+              className={`mt-1 w-full rounded-md border px-3 py-2 dark:text-zinc-300 focus:border-purple-500 focus:outline-0 ${errors.title ? 'border-red-600 dark:border-red-400' : 'border-gray-200 dark:border-zinc-600'
                 }`}
             />
             {errors.title && <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.title}</p>}
@@ -168,7 +169,7 @@ const AddEditDialog:React.FC = () => {
               value={formData.description}
               onChange={handleChange}
               placeholder="Describe the task"
-              className={`mt-1 w-full resize-none rounded-md border dark:text-zinc-300 px-3 py-2 focus:border-purple-500 focus:outline-0 ${errors.description ? 'border-red-600 dark:border-red-400' : 'border-gray-300 dark:border-zinc-600'
+              className={`mt-1 w-full resize-none rounded-md border dark:text-zinc-300 px-3 py-2 focus:border-purple-500 focus:outline-0 ${errors.description ? 'border-red-600 dark:border-red-400' : 'border-gray-200 dark:border-zinc-600'
                 }`}
             ></textarea>
             {errors.description && <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.description}</p>}
@@ -184,7 +185,7 @@ const AddEditDialog:React.FC = () => {
               name="priority"
               value={formData.priority}
               onChange={handleChange}
-              className="mt-1 w-full dark:text-zinc-300 rounded-md border px-3 py-2 focus:border-purple-500 focus:outline-0 border-gray-300 dark:border-zinc-600"
+              className="mt-1 w-full dark:text-zinc-300 rounded-md border px-3 py-2 focus:border-purple-500 focus:outline-0 border-gray-200 dark:border-zinc-600"
             >
               {priorities.map((priority) => (
                 <option
@@ -208,7 +209,7 @@ const AddEditDialog:React.FC = () => {
               value={formData.dueDate}
               onChange={handleChange}
               min={today}
-              className={`mt-1 w-full dark:text-zinc-300 rounded-md border px-3 py-2 focus:border-purple-500 focus:outline-0 ${errors.dueDate ? 'border-red-600 dark:border-red-400' : 'border-gray-300 dark:border-zinc-600'
+              className={`mt-1 w-full dark:text-zinc-300 rounded-md border px-3 py-2 focus:border-purple-500 focus:outline-0 ${errors.dueDate ? 'border-red-600 dark:border-red-400' : 'border-gray-200 dark:border-zinc-600'
                 }`}
             />
             {errors.dueDate && <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.dueDate}</p>}

@@ -41,7 +41,7 @@ interface TodoState {
 const initialState: TodoState = {
   todos: [],
   loading: {
-    read: false,
+    read: true,
     update: false,
     create: false,
   },
@@ -162,9 +162,6 @@ const todoSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // fetchTodos
-      .addCase(fetchTodos.pending, (state) => {
-        state.loading.read = true;
-      })
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.todos = action.payload;
         state.loading.read = false;

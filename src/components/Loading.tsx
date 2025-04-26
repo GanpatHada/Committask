@@ -3,7 +3,7 @@ import React from 'react'
 
 const Loading: React.FC = () => {
     return (
-        <div className='h-screen flex justify-center items-center flex-1 flex-col'>
+        <div className='h-screen flex justify-center items-center flex-1 flex-col dark:bg-zinc-800'>
             <Image
                 src={'/main-logo.svg'}
                 alt='main-logo'

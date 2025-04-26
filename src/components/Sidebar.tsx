@@ -99,7 +99,7 @@ export default function Sidebar() {
 
 
   return (
-    <aside id='sidebar' className={`w-[250px] h-full dark:bg-[#202020] bg-gray-100 px-4 py-6 fixed top-0 left-0 z-20 flex flex-col overflow-auto transition-all duration-300 text-gray-600 linear text-sm ${isOpen ? 'translate-x-[0px]' : 'translate-x-[-250px]'}`}>
+    <aside id='sidebar' className={`w-[250px] h-full dark:bg-[#202020] bg-gray-100 px-4 py-6 fixed top-0 left-0 z-20 flex flex-col overflow-auto transition-transform duration-300 text-gray-600 linear text-sm ${isOpen ? 'translate-x-[0px]' : 'translate-x-[-250px]'}`}>
       <div className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-700 rounded-xl shadow mb-8  justify-between">
 
         <div className='flex items-center gap-1.5'>
@@ -120,7 +120,7 @@ export default function Sidebar() {
       </div>
       <div className="mb-6">
         <p className="uppercase text-xs text-gray-400 px-3 mb-2 dark:text-zinc-500">General</p>
-        <nav className="space-y-2 dark:text-zinc-400">
+        <nav className="space-y-2 dark:text-zinc-400 text-gray-500">
           {
             todofilters.map((filter, index) => {
               return <SidebarItem key={index} icon={filter.icon} value={filter.value} label={filter.label} active={currentFilter === filter.value} />
