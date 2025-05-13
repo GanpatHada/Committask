@@ -175,6 +175,13 @@ const todoSlice = createSlice({
     },
     applySortOrderFilter:(state,action:PayloadAction<"ASC" | "DESC">)=>{
         state.filter.sortOrder=action.payload
+    },
+    clearAllFilters:(state)=>{
+      state.filter.includeCompleted=false;
+      state.filter.priority=[];
+      state.filter.sortField='SELECT';
+      state.filter.sortOrder='ASC'
+
     }
   },
   extraReducers: (builder) => {
@@ -259,5 +266,5 @@ const todoSlice = createSlice({
   },
 });
 
-export const { toggleView, applyDateFilter,applyPriorityFilter,toggleIncludeCompleted,applySortFieldFilter,applySortOrderFilter} = todoSlice.actions;
+export const { toggleView,clearAllFilters, applyDateFilter,applyPriorityFilter,toggleIncludeCompleted,applySortFieldFilter,applySortOrderFilter} = todoSlice.actions;
 export default todoSlice.reducer;

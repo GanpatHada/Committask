@@ -9,7 +9,7 @@ import {
   CalendarDays,
   CalendarClock
 } from 'lucide-react';
-import { signOut} from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeSidebar, openSidebar } from '@/store/slices/sidebarSlice';
 import { AppDispatch, RootState } from '@/store/store';
@@ -21,23 +21,21 @@ import { updateTheme } from '@/store/slices/userSlice';
 
 
 const ThemeSelector = () => {
-  const {theme,themeUpdating} = useSelector((state:RootState)=>state.user)
+  const { theme, themeUpdating } = useSelector((state: RootState) => state.user)
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch=useDispatch<AppDispatch>()
-  const [currentTheme,setCurrentTheme]=useState<"SYSTEM" | "DARK" | "LIGHT">(theme);
-  
-  function applySystemTheme(){
+  const dispatch = useDispatch<AppDispatch>()
+  const [currentTheme, setCurrentTheme] = useState<"SYSTEM" | "DARK" | "LIGHT">(theme);
+
+  function applySystemTheme() {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
   }
-  
-  function applyTheme(theme:"SYSTEM" | "DARK" | "LIGHT")
-  {
-    switch(theme)
-    {
+
+  function applyTheme(theme: "SYSTEM" | "DARK" | "LIGHT") {
+    switch (theme) {
       case "LIGHT":
         document.documentElement.classList.remove("dark");
         break;
@@ -50,26 +48,32 @@ const ThemeSelector = () => {
     }
   }
 
-  
+
 
 
   useEffect(() => {
     setCurrentTheme(theme);
     applyTheme(theme)
   }, [theme]);
-  
-  const handleSelect = (value: string) => {
-    const normalized = value.toUpperCase() as "SYSTEM" | "DARK" | "LIGHT";
-    setCurrentTheme(normalized);
+
+  const handleSelect = async (value: string) => {
     setIsOpen(false);
-    applyTheme(normalized)
-    if(normalized!==currentTheme)
-       dispatch(updateTheme(normalized))
+    const normalized = value.toUpperCase() as "SYSTEM" | "DARK" | "LIGHT";
+    if (normalized !== currentTheme) {
+      try {
+        await dispatch(updateTheme(normalized)).unwrap();
+        setCurrentTheme(normalized);
+        applyTheme(normalized)
+      } catch (error) {
+        throw error
+      }
+    }
+
   };
-  
+
 
   return (
-    <div className={`${themeUpdating?"opacity-50":"opacity-100"} relative w-full`}>
+    <div className={`${themeUpdating ? "opacity-50" : "opacity-100"} relative w-full`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between gap-3 px-3 py-2 rounded-md hover:bg-white dark:hover:bg-zinc-700 cursor-pointer"
@@ -104,7 +108,7 @@ export default function Sidebar() {
   const dispatch = useDispatch<AppDispatch>();
   const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
   const currentFilter = useSelector((state: RootState) => state.todos.filter.date);
-  const {name,image} = useSelector((state:RootState)=>state.user)
+  const { name, image } = useSelector((state: RootState) => state.user)
 
   type TodoFilters = {
     value: TodoFilterByDateType;
