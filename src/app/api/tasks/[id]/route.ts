@@ -1,7 +1,7 @@
 import ApiError from "@/lib/errors/apiError";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/requireAuth";
-import { updateTodoSchema } from "@/schemas/task.schema";
+import { TodoStatusSchema, updateTodoSchema } from "@/schemas/task.schema";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -121,3 +121,70 @@ export async function PUT(req: NextRequest,{ params }: { params: Promise<{ id: s
     });
   }
 }
+
+
+export async function PATCH(req: NextRequest,{ params }: { params: Promise<{ id: string }> }) 
+{
+  try {
+    // Safely destructure params and ensure `id` is a string
+    const { id } = await params;
+    if (!id || Array.isArray(id)) {
+      throw new ApiError(400, "Todo not found with this id");
+    }
+
+    // Parse the request body
+    const body = await req.json();
+    if (!body || Object.keys(body).length === 0) {
+      return NextResponse.json({ message: "Request body is empty" }, { status: 400 });
+    }
+
+    // Validate the parsed data using Zod schema
+    const parsedData = TodoStatusSchema.parse(body);
+
+    // Authentication check
+    const user = await requireAuth();
+
+    // Check if Todo exists
+    const existingTodo = await prisma.todo.findUnique({ where: { id } });
+
+    if (!existingTodo) {
+      throw new ApiError(404, "Todo not found");
+    }
+
+    // Authorization check
+    if (existingTodo.userId !== user.id) {
+      throw new ApiError(403, "Not authorized to update this todo");
+    }
+
+    // Proceed with the update
+    const updatedTodo = await prisma.todo.update({
+      where: { id },
+      data: { completed: parsedData.completed},
+    });
+
+    return NextResponse.json(
+      {
+        message: `Task has been marked ${parsedData.completed?"Completed":"Incompleted"}`,
+        success: true,
+        data: updatedTodo,
+      },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    const responseBody: any = {
+      success: false,
+      message: error.message,
+    };
+    if (error instanceof z.ZodError) {
+      responseBody.message = "Validation Error";
+      responseBody.errors = error.errors.map((e) => e.message);
+    }
+
+    return NextResponse.json(responseBody, {
+      status: error.statusCode || 500,
+    });
+  }
+}
+
+
+

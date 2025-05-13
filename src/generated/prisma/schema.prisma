@@ -14,12 +14,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Theme {
+  SYSTEM
+  lIGHT
+  DARK
+}
+
 model User {
   id       String  @id @unique @default(cuid())
   name     String
   email    String  @unique
   password String?
   image    String?
+  theme    Theme   @default(SYSTEM)
   todos    Todo[]
 }
 
@@ -32,6 +39,7 @@ enum Priority {
 model Todo {
   id          String   @id @unique @default(cuid())
   user        User     @relation(fields: [userId], references: [id])
+  title       String
   completed   Boolean  @default(false)
   userId      String
   createdAt   DateTime @default(now())

@@ -9,57 +9,86 @@ import {
   CalendarDays,
   CalendarClock
 } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut} from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeSidebar } from '@/store/slices/sidebarSlice';
+import { closeSidebar, openSidebar } from '@/store/slices/sidebarSlice';
 import { AppDispatch, RootState } from '@/store/store';
 import { ReactNode, useEffect, useState } from 'react';
-import { applyFilter, TodoFilterType } from '@/store/slices/todoSlice';
+import { applyDateFilter } from '@/store/slices/todoSlice';
+import { TodoFilterByDateType } from '../../types/todo';
+import { capitalize } from '@/app/globalUtils';
+import { updateTheme } from '@/store/slices/userSlice';
 
 
 const ThemeSelector = () => {
+  const {theme,themeUpdating} = useSelector((state:RootState)=>state.user)
   const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState("system");
-
-  const handleSelect = (value: string) => {
-    setTheme(value);
-    setIsOpen(false);
-    if (value === "light") {
-      document.documentElement.classList.remove("dark");
-    } else if (value === "dark") {
+  const dispatch=useDispatch<AppDispatch>()
+  const [currentTheme,setCurrentTheme]=useState<"SYSTEM" | "DARK" | "LIGHT">(theme);
+  
+  function applySystemTheme(){
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       document.documentElement.classList.add("dark");
     } else {
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+      document.documentElement.classList.remove("dark");
     }
+  }
+  
+  function applyTheme(theme:"SYSTEM" | "DARK" | "LIGHT")
+  {
+    switch(theme)
+    {
+      case "LIGHT":
+        document.documentElement.classList.remove("dark");
+        break;
+      case "DARK":
+        document.documentElement.classList.add("dark");
+        break;
+      default:
+        applySystemTheme();
+        break;
+    }
+  }
+
+  
+
+
+  useEffect(() => {
+    setCurrentTheme(theme);
+    applyTheme(theme)
+  }, [theme]);
+  
+  const handleSelect = (value: string) => {
+    const normalized = value.toUpperCase() as "SYSTEM" | "DARK" | "LIGHT";
+    setCurrentTheme(normalized);
+    setIsOpen(false);
+    applyTheme(normalized)
+    if(normalized!==currentTheme)
+       dispatch(updateTheme(normalized))
   };
+  
 
   return (
-    <div className="relative w-full">
+    <div className={`${themeUpdating?"opacity-50":"opacity-100"} relative w-full`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between gap-3 px-3 py-2 rounded-md hover:bg-white dark:hover:bg-zinc-700 cursor-pointer"
       >
         <div className="flex items-center gap-3">
-          <Palette size={18} />
-          {theme.charAt(0).toUpperCase() + theme.slice(1)}
+          <Palette size={18} /> {capitalize(currentTheme)}
         </div>
         <span className={`text-sm transform transition duration-500 ${!isOpen && 'rotate-180'}`}><ChevronDown size={18} /></span>
       </button>
-
       {isOpen && (
         <div className="absolute bottom-2 z-10 mt-2 w-full bg-white dark:bg-zinc-800  rounded-md shadow mb-8 overflow-hidden">
-          {["light", "dark", "system"].map((opt) => (
+          {["LIGHT", "DARK", "SYSTEM"].map((opt) => (
             <div
               key={opt}
               onClick={() => handleSelect(opt)}
-              className={`px-4 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 ${theme === opt ? "font-semibold text-black dark:text-white" : ""
+              className={`px-4 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 ${currentTheme === opt ? "font-semibold text-black dark:text-white" : ""
                 }`}
             >
-              {opt.charAt(0).toUpperCase() + opt.slice(1)}
+              {capitalize(opt)}
             </div>
           ))}
         </div>
@@ -74,11 +103,11 @@ const ThemeSelector = () => {
 export default function Sidebar() {
   const dispatch = useDispatch<AppDispatch>();
   const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
-  const currentFilter = useSelector((state: RootState) => state.todos.filter);
-  const session = useSession();
+  const currentFilter = useSelector((state: RootState) => state.todos.filter.date);
+  const {name,image} = useSelector((state:RootState)=>state.user)
 
   type TodoFilters = {
-    value: TodoFilterType;
+    value: TodoFilterByDateType;
     icon: ReactNode;
     label: string;
   };
@@ -90,30 +119,37 @@ export default function Sidebar() {
     { value: 'THIS_MONTH', icon: <CalendarDays size={18} />, label: "This Month" }
   ]
 
+
+
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth < 639) {
-      dispatch(closeSidebar());
+    if (typeof window !== 'undefined' && window.innerWidth > 639) {
+      dispatch(openSidebar());
     }
   }, []);
 
-
-
   return (
-    <aside id='sidebar' className={`w-[250px] h-full dark:bg-[#202020] bg-gray-100 px-4 py-6 fixed top-0 left-0 z-20 flex flex-col overflow-auto transition-transform duration-300 text-gray-600 linear text-sm ${isOpen ? 'translate-x-[0px]' : 'translate-x-[-250px]'}`}>
+    <aside id='sidebar'
+      className={`w-[250px] h-full dark:bg-[#202020]
+     bg-gray-100 px-4 py-6 fixed top-0 left-0 z-20 flex flex-col
+     transition-transform duration-300 ease-in-out
+     overflow-auto  text-gray-600  text-sm ${isOpen ? 'translate-x-[0px]' :
+          'translate-x-[-250px]'}`}>
+
+
       <div className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-700 rounded-xl shadow mb-8  justify-between">
 
         <div className='flex items-center gap-1.5'>
-          {session?.data?.user?.image ? <img
-            src={session?.data?.user?.image}
+          {image ? <img
+            src={image}
             alt="Avatar"
             width={40}
             height={40}
             className="rounded-full"
           />
             : <div className='h-[40px] aspect-square rounded-[40px] bg-purple-500 text-white flex items-center justify-center text-xl'>
-              {session?.data?.user?.name?.charAt(0).toUpperCase()}
+              {name.charAt(0).toUpperCase()}
             </div>}
-          <div className="font-medium text-sm dark:text-white">{session?.data?.user?.name?.slice(0, 20)}</div>
+          <div className="font-medium text-sm dark:text-white">{name.slice(0, 20)}</div>
         </div>
         <button onClick={() => dispatch(closeSidebar())} className='cursor-pointer'><PanelLeftClose color='gray' /></button>
 
@@ -144,15 +180,14 @@ export default function Sidebar() {
   );
 }
 
-// Reusable Sidebar Item
-function SidebarItem({ icon, label, active, value }: { icon: ReactNode, label: string, active: boolean, value: TodoFilterType }) {
+function SidebarItem({ icon, label, active, value }: { icon: ReactNode, label: string, active: boolean, value: TodoFilterByDateType }) {
   const dispatch = useDispatch<AppDispatch>();
-  const handleFilterChange = (value: TodoFilterType): void => {
-    dispatch(applyFilter(value))
+  const handleFilterChange = (value: TodoFilterByDateType): void => {
+    dispatch(applyDateFilter(value))
   }
   return (
-    <div onClick={() => handleFilterChange(value)} 
-    className={`flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white dark:hover:bg-zinc-700 cursor-pointer ${active && 'dark:text-purple-400  text-purple-500 '}`}>
+    <div onClick={() => handleFilterChange(value)}
+      className={`flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white dark:hover:bg-zinc-700 cursor-pointer ${active && 'dark:text-purple-400  text-purple-500 '}`}>
       <span>{icon}</span>
       <span>{label}</span>
     </div>

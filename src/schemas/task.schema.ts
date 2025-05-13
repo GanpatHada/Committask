@@ -37,14 +37,18 @@ export const updateTodoSchema = z.object({
   }).min(1, "Description cannot be empty"),
 
   priority: Priority.default("MEDIUM"),
-  completed: z.boolean().optional().refine((val) => val !== undefined, {
-    message: "Completed status is required",
-  }),
   dueDate: z.string({
     required_error: "Due date is required",
     invalid_type_error: "Due date must be a string",
   }).refine((val) => !isNaN(Date.parse(val)), {
     message: "Due date must be a valid date",
   }),
+}).strict();
+
+
+export const TodoStatusSchema = z.object({ 
+  completed: z.boolean().optional().refine((val) => val !== undefined, {
+    message: "Completed status is required",
+  })
 }).strict();
 

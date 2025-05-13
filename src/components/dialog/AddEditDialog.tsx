@@ -1,15 +1,15 @@
 import { closeDialog } from '@/store/slices/dialogSlice'
-import { AddToDo, addTodo, updateTodo } from '@/store/slices/todoSlice'
+import {addTodo,updateTodo } from '@/store/slices/todoSlice'
 import { AppDispatch, RootState } from '@/store/store'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import DialogLoader from './DialogLoader'
+import { AddToDo, EditToDo } from '../../../types/todo'
 
 const AddEditDialog:React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
-  const [completed, setCompleted] = useState<boolean>(false)
-  const addloading = useSelector((state: RootState) => state.todos.loading.create);
-  const updateloading = useSelector((state: RootState) => state.todos.loading.update);
+  const addloading = useSelector((state: RootState) => state.todos.todoAdding);
+  const updateloading = useSelector((state: RootState) => state.todos.todoUpdating);
   const { id: currentTodoId, mode } = useSelector((state: RootState) => state.dialog);
   const todos = useSelector((state: RootState) => state.todos.todos)
   const dispatch = useDispatch<AppDispatch>();
@@ -24,6 +24,7 @@ const AddEditDialog:React.FC = () => {
     priority: 'medium',
     dueDate: '',
   }
+
 
 
   function getDialogMode() {
@@ -53,13 +54,6 @@ const AddEditDialog:React.FC = () => {
       handleCloseDialog()
   }
 
-  
-
-
-  const handleTaskCompleted = () => {
-      return setCompleted(!completed)
-  }
-
   const validate = () => {
     const newErrors: { [key: string]: string } = {}
 
@@ -76,7 +70,7 @@ const AddEditDialog:React.FC = () => {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    const { title, description, priority, dueDate } = formData;
+    const { title, description, priority, dueDate, } = formData;
     e.preventDefault()
     if (!validate()) return;
     const newTodo = {
@@ -91,7 +85,7 @@ const AddEditDialog:React.FC = () => {
       else
       await dispatch(updateTodo({ 
         todoId: currentTodoId || "",
-        updatedTodo: { ...newTodo, completed }
+        updatedTodo: { ...newTodo}
       })).unwrap();
       setFormData({ title: '', description: '', priority: '', dueDate: '' });
     } catch (err) {
@@ -102,7 +96,7 @@ const AddEditDialog:React.FC = () => {
     }
   }
 
-  const [formData, setFormData] = useState<AddToDo>(initialAddTask);
+  const [formData, setFormData] = useState<AddToDo | EditToDo>(initialAddTask);
 
   useEffect(() => {
     if (mode === 'EDIT_TODO') {
@@ -127,19 +121,6 @@ const AddEditDialog:React.FC = () => {
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-gray-700 dark:text-zinc-200">{getDialogMode()}</h2>
-            {mode==='EDIT_TODO'&&<label className='flex gap-2 cursor-pointer select-none items-center ring-1 p-2 rounded-md ring-gray-200 dark:ring-zinc-600'>
-              <p className={`${completed?'text-green-500 dark:text-green-300':'text-gray-300 dark:text-zinc-500'}`}>Completed</p>
-              <div className='relative z-[-1]'>
-                <input
-                  type='checkbox'
-                  checked={completed}
-                  onChange={handleTaskCompleted}
-                  className='sr-only peer'
-                />
-                <div className='block h-6 w-12 rounded-full bg-gray-300 dark:bg-zinc-500 peer-checked:bg-green-500 transition-colors'></div>
-                <div className='absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-6'></div>
-                </div>
-            </label>}
           </div>
           {/* Task Title */}
           <div>

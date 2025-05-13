@@ -28,7 +28,16 @@ export type Todo = $Result.DefaultSelection<Prisma.$TodoPayload>
  * Enums
  */
 export namespace $Enums {
-  export const Priority: {
+  export const Theme: {
+  SYSTEM: 'SYSTEM',
+  LIGHT: 'LIGHT',
+  DARK: 'DARK'
+};
+
+export type Theme = (typeof Theme)[keyof typeof Theme]
+
+
+export const Priority: {
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH'
@@ -37,6 +46,10 @@ export namespace $Enums {
 export type Priority = (typeof Priority)[keyof typeof Priority]
 
 }
+
+export type Theme = $Enums.Theme
+
+export const Theme: typeof $Enums.Theme
 
 export type Priority = $Enums.Priority
 
@@ -1024,6 +1037,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     image: string | null
+    theme: $Enums.Theme | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1032,6 +1046,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     image: string | null
+    theme: $Enums.Theme | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1040,6 +1055,7 @@ export namespace Prisma {
     email: number
     password: number
     image: number
+    theme: number
     _all: number
   }
 
@@ -1050,6 +1066,7 @@ export namespace Prisma {
     email?: true
     password?: true
     image?: true
+    theme?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1058,6 +1075,7 @@ export namespace Prisma {
     email?: true
     password?: true
     image?: true
+    theme?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1066,6 +1084,7 @@ export namespace Prisma {
     email?: true
     password?: true
     image?: true
+    theme?: true
     _all?: true
   }
 
@@ -1147,6 +1166,7 @@ export namespace Prisma {
     email: string
     password: string | null
     image: string | null
+    theme: $Enums.Theme
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1172,6 +1192,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    theme?: boolean
     todos?: boolean | User$todosArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1182,6 +1203,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    theme?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1190,6 +1212,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    theme?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1198,9 +1221,10 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    theme?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "image", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "image" | "theme", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     todos?: boolean | User$todosArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1219,6 +1243,7 @@ export namespace Prisma {
       email: string
       password: string | null
       image: string | null
+      theme: $Enums.Theme
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1648,6 +1673,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
+    readonly theme: FieldRef<"User", 'Theme'>
   }
     
 
@@ -3207,7 +3233,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     password: 'password',
-    image: 'image'
+    image: 'image',
+    theme: 'theme'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3272,6 +3299,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Theme'
+   */
+  export type EnumThemeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Theme'>
+    
+
+
+  /**
+   * Reference to a field of type 'Theme[]'
+   */
+  export type ListEnumThemeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Theme[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -3332,6 +3373,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    theme?: EnumThemeFilter<"User"> | $Enums.Theme
     todos?: TodoListRelationFilter
   }
 
@@ -3341,6 +3383,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    theme?: SortOrder
     todos?: TodoOrderByRelationAggregateInput
   }
 
@@ -3353,6 +3396,7 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     password?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    theme?: EnumThemeFilter<"User"> | $Enums.Theme
     todos?: TodoListRelationFilter
   }, "id" | "id" | "email">
 
@@ -3362,6 +3406,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    theme?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -3376,6 +3421,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    theme?: EnumThemeWithAggregatesFilter<"User"> | $Enums.Theme
   }
 
   export type TodoWhereInput = {
@@ -3459,6 +3505,7 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    theme?: $Enums.Theme
     todos?: TodoCreateNestedManyWithoutUserInput
   }
 
@@ -3468,6 +3515,7 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    theme?: $Enums.Theme
     todos?: TodoUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -3477,6 +3525,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: EnumThemeFieldUpdateOperationsInput | $Enums.Theme
     todos?: TodoUpdateManyWithoutUserNestedInput
   }
 
@@ -3486,6 +3535,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: EnumThemeFieldUpdateOperationsInput | $Enums.Theme
     todos?: TodoUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -3495,6 +3545,7 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    theme?: $Enums.Theme
   }
 
   export type UserUpdateManyMutationInput = {
@@ -3503,6 +3554,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: EnumThemeFieldUpdateOperationsInput | $Enums.Theme
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -3511,6 +3563,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: EnumThemeFieldUpdateOperationsInput | $Enums.Theme
   }
 
   export type TodoCreateInput = {
@@ -3626,6 +3679,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type EnumThemeFilter<$PrismaModel = never> = {
+    equals?: $Enums.Theme | EnumThemeFieldRefInput<$PrismaModel>
+    in?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThemeFilter<$PrismaModel> | $Enums.Theme
+  }
+
   export type TodoListRelationFilter = {
     every?: TodoWhereInput
     some?: TodoWhereInput
@@ -3647,6 +3707,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    theme?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -3655,6 +3716,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    theme?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -3663,6 +3725,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    theme?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3699,6 +3762,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type EnumThemeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Theme | EnumThemeFieldRefInput<$PrismaModel>
+    in?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThemeWithAggregatesFilter<$PrismaModel> | $Enums.Theme
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumThemeFilter<$PrismaModel>
+    _max?: NestedEnumThemeFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -3819,6 +3892,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type EnumThemeFieldUpdateOperationsInput = {
+    set?: $Enums.Theme
+  }
+
   export type TodoUpdateManyWithoutUserNestedInput = {
     create?: XOR<TodoCreateWithoutUserInput, TodoUncheckedCreateWithoutUserInput> | TodoCreateWithoutUserInput[] | TodoUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TodoCreateOrConnectWithoutUserInput | TodoCreateOrConnectWithoutUserInput[]
@@ -3901,6 +3978,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedEnumThemeFilter<$PrismaModel = never> = {
+    equals?: $Enums.Theme | EnumThemeFieldRefInput<$PrismaModel>
+    in?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThemeFilter<$PrismaModel> | $Enums.Theme
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -3955,6 +4039,16 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumThemeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Theme | EnumThemeFieldRefInput<$PrismaModel>
+    in?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Theme[] | ListEnumThemeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThemeWithAggregatesFilter<$PrismaModel> | $Enums.Theme
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumThemeFilter<$PrismaModel>
+    _max?: NestedEnumThemeFilter<$PrismaModel>
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -4081,6 +4175,7 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    theme?: $Enums.Theme
   }
 
   export type UserUncheckedCreateWithoutTodosInput = {
@@ -4089,6 +4184,7 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    theme?: $Enums.Theme
   }
 
   export type UserCreateOrConnectWithoutTodosInput = {
@@ -4113,6 +4209,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: EnumThemeFieldUpdateOperationsInput | $Enums.Theme
   }
 
   export type UserUncheckedUpdateWithoutTodosInput = {
@@ -4121,6 +4218,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: EnumThemeFieldUpdateOperationsInput | $Enums.Theme
   }
 
   export type TodoCreateManyUserInput = {

@@ -24,4 +24,12 @@ export const registerSchema = z.object({
     ),
 });
 
+export const updateThemeSchema = z.object({
+  theme: z.enum(["LIGHT","DARK","SYSTEM"], {
+    required_error: "Theme is required",
+    invalid_type_error: "Theme must be 'LIGHT' 'DARK' OR 'SYSTEM'",
+  }),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type UpdateThemeInput = z.infer<typeof updateThemeSchema>;

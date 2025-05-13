@@ -43,6 +43,15 @@
 #todos-wrapper::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+#priority input{
+  accent-color:purple;
+  
+}
+#filter-popup{
+  box-sizing: border-box!important;
+ 
+}
 @keyframes bounce {
     0%, 100% {
       transform: translateY(0);

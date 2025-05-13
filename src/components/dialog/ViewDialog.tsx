@@ -1,9 +1,11 @@
 import { capitalize } from '@/app/globalUtils'
+import useClickOutside from '@/hooks/useClickOutside'
 import { closeDialog } from '@/store/slices/dialogSlice'
 import { RootState } from '@/store/store'
 import dayjs from 'dayjs'
 import { X } from 'lucide-react'
-import React from 'react'
+import React, { useRef } from 'react'
+import { IoIosCheckmarkCircle } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 
 const ViewDialog: React.FC = () => {
@@ -19,14 +21,18 @@ const ViewDialog: React.FC = () => {
         if (priority === 'HIGH') return 'bg-red-200 text-red-800'
     }
 
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  useClickOutside(modalRef as React.RefObject<HTMLElement>,()=>dispatch(closeDialog()))
+
     return (
-        <div className='relative'>
+        <div className='relative' ref={modalRef}>
             <button onClick={() => dispatch(closeDialog())} className="absolute top-2 text-gray-400 dark:text-zinc-500 right-2"><X /></button>
-            <h1 className="dark:text-zinc-300 text-gray-700 text-2xl px-6 py-3 border-b-1 border-gray-200 dark:border-zinc-600">Task Details</h1>
+            <h1 className="dark:text-zinc-300 text-gray-500 text-xl px-6 py-3 border-b-1 border-gray-200 dark:border-zinc-600">Task Details</h1>
             <div className="space-y-2 p-6 pt-6">
-                <div className="flex">
-                    <h2 className='text-gray-700 font-semibold dark:text-zinc-300 text-md'>{currentTodo?.title}</h2>
-                    <span className={`${getPriorityColor(currentTodo?.priority as Priority)} text-xs py-1 ml-1 px-2 rounded-xl`}>{currentTodo?.priority}</span>
+                <div className="flex items-center gap-1">
+                    <h2 className='text-gray-700 font-semibold dark:text-zinc-300 text-xl'>{currentTodo?.title}</h2>
+                    {currentTodo?.completed&&<span className='text-3xl text-green-600'><IoIosCheckmarkCircle /></span>}
+                    
                 </div>
                 <p className='text-gray-500 dark:text-zinc-400 text-md'>{currentTodo?.description}</p>
                 <div className='text-sm'>

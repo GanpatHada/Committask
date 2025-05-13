@@ -14,12 +14,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Theme {
+  SYSTEM
+  LIGHT
+  DARK
+}
+
+
 model User {
   id           String  @id @unique @default(cuid())
   name         String
   email        String  @unique
   password     String?
   image        String?
+  theme        Theme   @default(SYSTEM)
   todos        Todo[]
 }
 

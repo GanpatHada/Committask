@@ -1,45 +1,140 @@
-import { Todo, TodoFilterType } from "@/store/slices/todoSlice";
+import { Todo, TodoFilter, TodoFilterByPriorityType } from "../../types/todo";
 
+function isDateToday(dueDate: Date): boolean {
+  const today = new Date();
+  return (
+    today.getFullYear() === dueDate.getFullYear() &&
+    today.getMonth() === dueDate.getMonth() &&
+    today.getDate() === dueDate.getDate()
+  );
+}
 
-function isDateToday(dueDate:Date): boolean {
-    const today = new Date();
-    return (
-      today.getFullYear() === dueDate.getFullYear() &&
-      today.getMonth() === dueDate.getMonth() &&
-      today.getDate() === dueDate.getDate()
-    );
+function isDateThisWeek(inputDate: Date): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const givenDate = new Date(inputDate);
+  givenDate.setHours(0, 0, 0, 0);
+
+  const dayOfWeek = today.getDay();
+  const daysUntilSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+
+  const upcomingSunday = new Date(today);
+  upcomingSunday.setDate(today.getDate() + daysUntilSunday);
+
+  return givenDate > today && givenDate <= upcomingSunday;
+}
+
+function isDateThisMonth(inputDate: Date): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const givenDate = new Date(inputDate);
+  givenDate.setHours(0, 0, 0, 0);
+
+  const dayOfWeek = today.getDay();
+  const upcomingSunday = new Date(today);
+  const daysUntilSunday = (7 - dayOfWeek) % 7;
+  upcomingSunday.setDate(today.getDate() + daysUntilSunday);
+  upcomingSunday.setHours(0, 0, 0, 0);
+
+  const isInSameMonth = givenDate.getMonth() === today.getMonth();
+  const isInSameYear = givenDate.getFullYear() === today.getFullYear();
+  const isAfterSunday = givenDate > upcomingSunday;
+
+  return isInSameMonth && isInSameYear && isAfterSunday;
+}
+
+export function isDateAfterFirstOfNextMonth(inputDate: Date): boolean {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+
+  const firstOfNextMonth = new Date(year, month + 1, 1);
+  firstOfNextMonth.setHours(0, 0, 0, 0);
+
+  const given = new Date(inputDate);
+  given.setHours(0, 0, 0, 0);
+
+  return given >= firstOfNextMonth;
+}
+
+type updatedTodosType = {
+  today: Todo[];
+  thisWeek: Todo[];
+  thisMonth: Todo[];
+  later: Todo[];
+  missed: Todo[];
+};
+
+type PriorityMap = {
+  low: Todo[];
+  med: Todo[];
+  high: Todo[];
+};
+
+export function filterTodosByDeadline(todos: Todo[], filter: TodoFilter) {
+  const {
+    priority: priorityFilter,
+    includeCompleted,
+    sortField,
+    sortOrder,
+  } = filter;
+  let currentTodos = todos;
+
+  if (sortField !== "SELECT") {
+    if (sortField === "PRIORITY") {
+      let tempTodos = currentTodos.reduce<PriorityMap>((acc,cur)=>{
+         if(cur.priority==='LOW')
+           acc.low.push(cur)
+         if(cur.priority==='MEDIUM')
+           acc.med.push(cur)
+         if(cur.priority==='HIGH')
+           acc.high.push(cur)
+         return acc; 
+      },{
+        low: [],
+        med: [],
+        high: [],
+      });
+      if(sortOrder==='ASC')
+        currentTodos=[...tempTodos.low,...tempTodos.med,...tempTodos.high]
+      else
+        currentTodos=[...tempTodos.low,...tempTodos.med,...tempTodos.high].reverse()
+    }
+    else
+    {
+      if(sortOrder==='DESC')
+        currentTodos=[...currentTodos].sort((a, b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime());
+      else
+        currentTodos=[...currentTodos].sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
+    }
   }
 
-  function isDateThisMonth(dueDate:Date): boolean {
-    const date = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
-    const today = new Date();
-  
-    return (
-      today.getFullYear() === date.getFullYear() &&
-      today.getMonth() === date.getMonth()
-    );
-  }  
-  function isDateThisWeek(dueDate: Date): boolean {
-    const date = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
-    const today = new Date();
-  
-    const firstDayOfWeek = new Date(today);
-    firstDayOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
-    firstDayOfWeek.setHours(0, 0, 0, 0);
-  
-    const lastDayOfWeek = new Date(firstDayOfWeek);
-    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
-    lastDayOfWeek.setHours(23, 59, 59, 999);
-  
-    return date >= firstDayOfWeek && date <= lastDayOfWeek;
-  }
+  const updatedTodos: updatedTodosType = {
+    today: [],
+    thisWeek: [],
+    thisMonth: [],
+    later: [],
+    missed: [],
+  };
 
-export function filterTodos(todos:Todo[],appliedFilter:TodoFilterType):Todo[]{
-   if(appliedFilter==='TODAY')
-      return todos.filter(todo=>isDateToday(new Date(todo.dueDate)))
-   if(appliedFilter==='THIS_MONTH')
-      return todos.filter(todo=>isDateThisMonth(new Date(todo.dueDate))) 
-   if(appliedFilter==='THIS_WEEK')
-      return todos.filter(todo=>isDateThisWeek(new Date(todo.dueDate))) 
-    return todos; 
+  if (!includeCompleted)
+    currentTodos = currentTodos.filter((todo) => !todo.completed);
+  if (priorityFilter.length !== 0)
+    currentTodos = currentTodos.filter((todo) =>
+      priorityFilter.includes(todo.priority as TodoFilterByPriorityType)
+    );
+  currentTodos.map((todo) => {
+    if (isDateToday(new Date(todo.dueDate)))
+      return updatedTodos["today"].push(todo);
+    if (isDateThisWeek(new Date(todo.dueDate)))
+      return updatedTodos["thisWeek"].push(todo);
+    if (isDateThisMonth(new Date(todo.dueDate)))
+      return updatedTodos["thisMonth"].push(todo);
+    if (isDateAfterFirstOfNextMonth(new Date(todo.dueDate)))
+      return updatedTodos["later"].push(todo);
+  });
+
+  return updatedTodos;
 }
