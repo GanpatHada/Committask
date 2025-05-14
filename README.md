@@ -17,7 +17,7 @@ allowing users to stay productive and focused.
 ## 🖼 preview (Tablet)
 
 <p align="center">
-  <img src="./public/committask-tablet-mockup.png" alt="Tablet preview" width="500" style="transform: rotate(90deg);" />
+  <img src="./public/committask-tablet-mockup.png" alt="Tablet preview" width="500" />
 </p>
 
 ## 🖼 preview (Mobile)
