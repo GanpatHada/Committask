@@ -14,7 +14,7 @@ allowing users to stay productive and focused.
 ## 🖼 preview (Mobile)
 
 <div align="center">
-  <img src="./public/committask-mobile-mockup.png" alt="Portfolio preview" width="300" />
+  <img src="./public/committask-mobile-mockup.png" alt="Portfolio preview" width="1200" />
 </div>
 
 ## 🚀 Features
