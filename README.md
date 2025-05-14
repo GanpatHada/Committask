@@ -9,7 +9,16 @@ allowing users to stay productive and focused.
 
 ## 🖼 preview (Desktop/Laptop)
 
-<img src="./public/committask-laptop-mockup.png" alt="Portfolio preview" />
+<p align="center">
+  <img src="./public/committask-laptop-mockup.png" alt="Laptop preview" width="1200" />
+  
+</p>
+
+## 🖼 preview (Tablet)
+
+<p align="center">
+  <img src="./public/committask-tablet-mockup.png" alt="Tablet preview" width="500" style="transform: rotate(90deg);" />
+</p>
 
 ## 🖼 preview (Mobile)
 
