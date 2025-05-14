@@ -7,7 +7,7 @@ import TaskLoading from "@/components/TaskLoading";
 import TodoCard from "@/components/TodoCard";
 import { fetchTodos } from "@/store/slices/todoSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import { getEndOfMonthDate, getFirstDateOfNextMonth, getTodayDate, getTomorrowDate, getUpcomingMonday, getUpcomingSunday, isNotWeekend } from "@/utils/dateHelper";
+import { getEndOfMonthDate, getFirstDateOfNextMonth, getTodayDate, getTomorrowDate, getUpcomingMonday, getUpcomingSunday, getYesterdayDate, isNotWeekend } from "@/utils/dateHelper";
 import { filterTodosByDeadline } from "@/utils/filterHelper";
 import { SessionProvider, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -46,7 +46,7 @@ function Todos() {
   useEffect(() => {
     dispatch(fetchTodos())
   }, [])
-  const { today, thisWeek, thisMonth, later } = filterTodosByDeadline(todos, filter)
+  const { today, thisWeek, thisMonth, later ,missed } = filterTodosByDeadline(todos, filter)
   return (
     <div id="todos-wrapper" className="flex-1 flex overflow-auto bg-white dark:bg-zinc-800">
       <div className="max-w-7xl w-full mx-auto p-4 h-fit">
@@ -56,6 +56,7 @@ function Todos() {
             {(filter.date === 'ALL_TODOS' || filter.date === 'THIS_WEEK') && isNotWeekend() && <TodoSection heading={"This Week"} helperDates={`${getTomorrowDate()} - ${getUpcomingSunday()}`} todos={thisWeek} />}
             {(filter.date === 'ALL_TODOS' || filter.date === 'THIS_MONTH') && <TodoSection heading={"This Month"} helperDates={`${getUpcomingMonday()} - ${getEndOfMonthDate()}`} todos={thisMonth} />}
             {filter.date === 'ALL_TODOS' && <TodoSection heading={"After Month"} helperDates={`${getFirstDateOfNextMonth()} - later`} todos={later} />}
+            {filter.date === 'MISSED' && <TodoSection heading={"Missed"} helperDates={`${getYesterdayDate()} - before`} todos={missed} />}
           </div>}
       </div>
     </div>

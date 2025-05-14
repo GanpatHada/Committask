@@ -2,10 +2,11 @@ import { capitalize } from '@/app/globalUtils'
 import useClickOutside from '@/hooks/useClickOutside'
 import { closeDialog } from '@/store/slices/dialogSlice'
 import { RootState } from '@/store/store'
+import { isTaskDeadlinePassed } from '@/utils/dateHelper'
 import dayjs from 'dayjs'
 import { X } from 'lucide-react'
 import React, { useRef } from 'react'
-import { IoIosCheckmarkCircle } from 'react-icons/io'
+import { IoIosCheckmarkCircle, IoMdAlert } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 
 const ViewDialog: React.FC = () => {
@@ -31,7 +32,8 @@ const ViewDialog: React.FC = () => {
             <div className="space-y-2 p-6 pt-6">
                 <div className="flex items-center gap-1">
                     <h2 className='text-gray-700 font-semibold dark:text-zinc-300 text-xl'>{currentTodo?.title}</h2>
-                    {currentTodo?.completed&&<span className='text-3xl text-green-600'><IoIosCheckmarkCircle /></span>}
+                    {currentTodo?.completed?<span className='text-3xl text-green-600'><IoIosCheckmarkCircle /></span>:
+                    isTaskDeadlinePassed(currentTodo?.dueDate || "") && <span title='task missed' className='text-3xl text-red-600'><IoMdAlert /></span>}
                     
                 </div>
                 <p className='text-gray-500 dark:text-zinc-400 text-md'>{currentTodo?.description}</p>

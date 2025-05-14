@@ -42,7 +42,7 @@ const FilterPopup: React.FC<FilterPopupPropType> = ({ filterButtonRef, closePopu
     useClickOutside(popupRef as React.RefObject<HTMLElement>, closePopup, filterButtonRef)
 
     return (
-        <div id='filter-popup' ref={popupRef} className={`absolute sm:w-45 top-16 right-0 z-10 rounded-md overflow-hidden origin-top-right transition-all duration-300 ease-in-out ${popup ? 'scale-100 opacity-100' : 'scale-0 opacity-0'} bg-white border-1 border-gray-300 dark:bg-zinc-800 dark:border-zinc-600
+        <div id='filter-popup' ref={popupRef} className={`absolute sm:w-50 top-16 right-0 z-10 rounded-md overflow-hidden origin-top-right transition-all duration-300 ease-in-out ${popup ? 'scale-100 opacity-100' : 'scale-0 opacity-0'} bg-white border-1 border-gray-300 dark:bg-zinc-800 dark:border-zinc-600
             
 `}>
             <header className='p-2 border-b-1 text-gray-600 dark:text-zinc-300 border-gray-200 dark:border-zinc-700'>Filters</header>
@@ -80,7 +80,7 @@ const FilterPopup: React.FC<FilterPopupPropType> = ({ filterButtonRef, closePopu
                                 id="order"
                                 value={filter.sortField}
                                 onChange={handleSortFieldChange}
-                                className="p-1 border-1 w-26 text-gray-500 dark:text-zinc-300 dark:border-zinc-600 border-gray-200 text-xs rounded-md focus:outline-0"
+                                className="p-1 border-1 sm:w-30 text-gray-500 dark:text-zinc-300 dark:border-zinc-600 border-gray-200 text-xs rounded-md focus:outline-0"
                             >
 
                                 <option className='dark:bg-zinc-700' value="SELECT">Select</option>
@@ -96,7 +96,7 @@ const FilterPopup: React.FC<FilterPopupPropType> = ({ filterButtonRef, closePopu
                                 value={filter.sortOrder}
                                 onChange={handleSortOrderChange}
                                 className="p-1 border-1 disabled:dark:bg-zinc-500 disabled:bg-gray-200 disabled:opacity-50 border-gray-200
-                            w-26 text-gray-500 dark:text-zinc-300 dark:border-zinc-600 rounded-md text-xs focus:outline-0"
+                            sm:w-30  text-gray-500 dark:text-zinc-300 dark:border-zinc-600 rounded-md text-xs focus:outline-0"
                             >
                                 <option className='dark:bg-zinc-700' value="ASC">Ascending</option>
                                 <option className='dark:bg-zinc-700' value="DESC">Descending</option>

@@ -151,7 +151,7 @@ const todoSlice = createSlice({
     },
     applyDateFilter: (
       state,
-      action: PayloadAction<"ALL_TODOS" | "TODAY" | "THIS_MONTH" | "THIS_WEEK">
+      action: PayloadAction<"ALL_TODOS" | "TODAY" | "THIS_MONTH" | "THIS_WEEK" | "MISSED">
     ) => {
       state.filter.date = action.payload;
     },

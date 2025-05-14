@@ -38,6 +38,21 @@ export function getTomorrowDate(): string {
   return tomorrow.toLocaleDateString('en-GB', options);
 }
 
+export function getYesterdayDate(): string {
+  const today = new Date();
+  const yesterdayDate = new Date(today);
+  yesterdayDate.setDate(today.getDate() - 1);
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  };
+
+  return yesterdayDate.toLocaleDateString('en-GB', options);
+}
+
 
 
 export function getEndOfMonthDate(): string {
@@ -106,5 +121,15 @@ export function getFirstDateOfNextMonth(): string {
 
   return new Date(year, month + 1, 1).toLocaleDateString('en-GB', options);
 }
+
+
+export const isTaskDeadlinePassed = (dueDate:string) => {
+     const deadline = new Date(dueDate);
+     const today = new Date();
+     deadline.setHours(0, 0, 0, 0);
+     today.setHours(0, 0, 0, 0);
+
+  return deadline < today;
+};
 
 

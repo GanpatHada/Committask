@@ -7,7 +7,8 @@ import {
   Palette,
   ChevronDown,
   CalendarDays,
-  CalendarClock
+  CalendarClock,
+  CircleAlert
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -120,7 +121,9 @@ export default function Sidebar() {
     { value: 'ALL_TODOS', icon: <ListTodo size={18} />, label: "All Todos" },
     { value: 'TODAY', icon: <CalendarClock size={18} />, label: "Today" },
     { value: 'THIS_WEEK', icon: <Calendar1 size={18} />, label: "This Week" },
-    { value: 'THIS_MONTH', icon: <CalendarDays size={18} />, label: "This Month" }
+    { value: 'THIS_MONTH', icon: <CalendarDays size={18} />, label: "This Month" },
+    { value: 'MISSED', icon: <CircleAlert size={18} />, label: "Missed"},
+    
   ]
 
 

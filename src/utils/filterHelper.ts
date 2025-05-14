@@ -134,6 +134,7 @@ export function filterTodosByDeadline(todos: Todo[], filter: TodoFilter) {
       return updatedTodos["thisMonth"].push(todo);
     if (isDateAfterFirstOfNextMonth(new Date(todo.dueDate)))
       return updatedTodos["later"].push(todo);
+    return updatedTodos["missed"].push(todo);
   });
 
   return updatedTodos;

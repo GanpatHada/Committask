@@ -20,7 +20,7 @@ export interface Todo {
   
   export interface EditToDo extends AddToDo{}
   
-  export type TodoFilterByDateType = "TODAY" | "THIS_MONTH" | "THIS_WEEK" | "ALL_TODOS";
+  export type TodoFilterByDateType = "TODAY" | "THIS_MONTH" | "THIS_WEEK" | "ALL_TODOS" | "MISSED";
   export type TodoFilterByPriorityType = 'MEDIUM' | 'LOW' | 'HIGH';
   export type TodoViewType = 'GRID' | 'ROWS'
   export type TodoSortFieldType='PRIORITY' | 'DEADLINE' | 'SELECT'
