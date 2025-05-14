@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Committask
 
-## Getting Started
+CommitTask is a sleek, real-time task management application that helps users create, update, and organize their daily tasks with ease. it features a clean UI, 
+allowing users to stay productive and focused.
 
-First, run the development server:
+## Live
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[Committask](https://committask.vercel.app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🖼 preview (Desktop/Laptop)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<img src="./public/committask-laptop-mockup.png" alt="Portfolio preview" />
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🖼 preview (Mobile)
 
-## Learn More
+<div align="center">
+  <img src="./public/committask-mobile-mockup.png" alt="Portfolio preview" width="300" />
+</div>
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Task Creation & Editing**: Quickly add, edit, and manage tasks with titles, descriptions, priorities, and due dates.
+- **Authentication**: Uses NextAuth both (email based and google-auth) for session persistence.
+- **Form Validation**: Ensures all required fields are filled and due dates are not set in the past.
+- **Priority & Status Filters**: Sort and filter tasks by priority or completion status for better task organization.
+- **User Interface**: Support Themes Fully responsive design that works across desktops, tablets, and mobile devices.
+- **Smooth User Experience**: Built with Tailwind CSS to provide clean design and smooth transitions.
+- **State Management**: Uses Redux Toolkit to manage task state efficiently across the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## 🛠️ Built With
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js, Redux-toolkit,tailwind
+- **Backend**: Next.js,Prisma, NextAuth
+- **Database**: PostgreSQL
+- **Deployment**: [Vercel](https://vercel.com/)
+- **Version Control**: Git, GitHub
