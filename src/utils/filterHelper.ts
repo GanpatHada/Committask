@@ -76,7 +76,6 @@ type PriorityMap = {
 export function filterTodosByDeadline(todos: Todo[], filter: TodoFilter) {
   const {
     priority: priorityFilter,
-    includeCompleted,
     sortField,
     sortOrder,
   } = filter;
@@ -118,9 +117,6 @@ export function filterTodosByDeadline(todos: Todo[], filter: TodoFilter) {
     later: [],
     missed: [],
   };
-
-  if (!includeCompleted)
-    currentTodos = currentTodos.filter((todo) => !todo.completed);
   if (priorityFilter.length !== 0)
     currentTodos = currentTodos.filter((todo) =>
       priorityFilter.includes(todo.priority as TodoFilterByPriorityType)

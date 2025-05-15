@@ -11,9 +11,8 @@ const initialState: TodoState = {
   todoAdding:false,
   view: "ROWS",
   filter:{
-    date:'ALL_TODOS',
+    date:'UPCOMMING',
     priority:[],
-    includeCompleted:false,
     sortField:'SELECT',
     sortOrder:'ASC'
   },
@@ -151,7 +150,7 @@ const todoSlice = createSlice({
     },
     applyDateFilter: (
       state,
-      action: PayloadAction<"ALL_TODOS" | "TODAY" | "THIS_MONTH" | "THIS_WEEK" | "MISSED">
+      action: PayloadAction<"UPCOMMING" | "TODAY" | "THIS_MONTH" | "THIS_WEEK" | "MISSED">
     ) => {
       state.filter.date = action.payload;
     },
@@ -166,9 +165,6 @@ const todoSlice = createSlice({
       else
         state.filter.priority.push(action.payload)
     },
-    toggleIncludeCompleted: (state) => {
-      state.filter.includeCompleted = !state.filter.includeCompleted;
-    },
 
     applySortFieldFilter:(state,action:PayloadAction<"PRIORITY" | "DEADLINE" | "SELECT">)=>{
         state.filter.sortField=action.payload
@@ -177,7 +173,6 @@ const todoSlice = createSlice({
         state.filter.sortOrder=action.payload
     },
     clearAllFilters:(state)=>{
-      state.filter.includeCompleted=false;
       state.filter.priority=[];
       state.filter.sortField='SELECT';
       state.filter.sortOrder='ASC'
@@ -266,5 +261,5 @@ const todoSlice = createSlice({
   },
 });
 
-export const { toggleView,clearAllFilters, applyDateFilter,applyPriorityFilter,toggleIncludeCompleted,applySortFieldFilter,applySortOrderFilter} = todoSlice.actions;
+export const { toggleView,clearAllFilters, applyDateFilter,applyPriorityFilter,applySortFieldFilter,applySortOrderFilter} = todoSlice.actions;
 export default todoSlice.reducer;

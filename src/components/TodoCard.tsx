@@ -77,6 +77,15 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
     return `${daysLeft} day${daysLeft > 1 ? "s" : ""} to complete`;
   };
 
+  const getTaskCardStyle=():string=>{
+    if(completed)
+      return 'bg-green-100/20 border-green-600 dark:bg-green-100/20 dark:border-green-100/40'
+    if(isTaskDeadlinePassed(dueDate))
+      return 'bg-red-100/40 border-red-700 dark:bg-red-100/20 dark:border-red-100/40'
+    return "dark:bg-zinc-500/10 border-gray-200 dark:border-zinc-700"
+    
+  }
+
 
 
   
@@ -85,7 +94,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
   return (
     <div
       onClick={handleViewTodo}
-      className={`border-1 flex border-gray-200 cursor-pointer bg-white hover:bg-purple-500 hover:border-purple-500 group dark:bg-zinc-500/10 rounded-lg  dark:border-zinc-700 p-3 relative ${loading && "opacity-[0.2]"
+      className={`border-1 flex cursor-pointer ${getTaskCardStyle()} hover:bg-purple-500 hover:border-purple-500 group rounded-lg  p-3 relative ${loading && "opacity-[0.2]"
         }`}
     >
       {!isTaskDeadlinePassed(todo.dueDate)&&<div className="flex items-center">

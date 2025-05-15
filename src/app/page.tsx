@@ -18,6 +18,7 @@ import { saveUser } from "@/store/slices/userSlice";
 
 
 
+
 const TodoSection: React.FC<{ heading: string, helperDates: string, todos: Todo[] }> = ({ heading, helperDates, todos }) => {
   const { view } = useSelector((state: RootState) => state.todos)
   return (
@@ -30,9 +31,7 @@ const TodoSection: React.FC<{ heading: string, helperDates: string, todos: Todo[
         todos.length === 0 ?
           <div className="text-gray-300 dark:text-zinc-600">{`! No task for ${heading}`}</div> :
           <div className={`grid ${view === 'ROWS' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'} auto-rows-fr h-fit gap-3`}>
-            {todos.map(todo => {
-              return <TodoCard key={todo.id} todo={todo} />
-            })}
+          {todos.map(todo =><TodoCard key={todo.id} todo={todo} />)}
           </div>
       }
     </div>
@@ -46,17 +45,17 @@ function Todos() {
   useEffect(() => {
     dispatch(fetchTodos())
   }, [])
-  const { today, thisWeek, thisMonth, later ,missed } = filterTodosByDeadline(todos, filter)
+  const { today, thisWeek, thisMonth, later, missed } = filterTodosByDeadline(todos, filter)
   return (
     <div id="todos-wrapper" className="flex-1 flex overflow-auto bg-white dark:bg-zinc-800">
       <div className="max-w-7xl w-full mx-auto p-4 h-fit">
         {todoFetching ? <TaskLoading view={view} /> :
           <div id="todos" className="flex flex-col gap-4">
-            {(filter.date === 'ALL_TODOS' || filter.date === 'TODAY') && <TodoSection heading={"Today"} helperDates={getTodayDate()} todos={today} />}
-            {(filter.date === 'ALL_TODOS' || filter.date === 'THIS_WEEK') && isNotWeekend() && <TodoSection heading={"This Week"} helperDates={`${getTomorrowDate()} - ${getUpcomingSunday()}`} todos={thisWeek} />}
-            {(filter.date === 'ALL_TODOS' || filter.date === 'THIS_MONTH') && <TodoSection heading={"This Month"} helperDates={`${getUpcomingMonday()} - ${getEndOfMonthDate()}`} todos={thisMonth} />}
-            {filter.date === 'ALL_TODOS' && <TodoSection heading={"After Month"} helperDates={`${getFirstDateOfNextMonth()} - later`} todos={later} />}
-            {filter.date === 'MISSED' && <TodoSection heading={"Missed"} helperDates={`${getYesterdayDate()} - before`} todos={missed} />}
+            {(filter.date === 'UPCOMMING' || filter.date === 'TODAY') && <TodoSection heading={"Today"} helperDates={getTodayDate()} todos={today} />}
+            {(filter.date === 'UPCOMMING' || filter.date === 'THIS_WEEK') && isNotWeekend() && <TodoSection heading={"This Week"} helperDates={`${getTomorrowDate()} - ${getUpcomingSunday()}`} todos={thisWeek} />}
+            {(filter.date === 'UPCOMMING' || filter.date === 'THIS_MONTH') && <TodoSection heading={"This Month"} helperDates={`${getUpcomingMonday()} - ${getEndOfMonthDate()}`} todos={thisMonth} />}
+            {filter.date === 'UPCOMMING' && <TodoSection heading={"After Month"} helperDates={`${getFirstDateOfNextMonth()} - later`} todos={later} />}
+            {filter.date === 'MISSED' && <TodoSection heading={"Past Tasks"} helperDates={`${getYesterdayDate()} - before`} todos={missed} />}
           </div>}
       </div>
     </div>
@@ -88,11 +87,12 @@ function HomeWrapper() {
 
   useEffect(() => {
     if (session?.user) {
-      dispatch(saveUser({ 
-        name:session.user.name || "", 
-        email:session.user.email || "", 
-        image:session.user.image || undefined, 
-        theme:session.user.theme || "SYSTEM" }));
+      dispatch(saveUser({
+        name: session.user.name || "",
+        email: session.user.email || "",
+        image: session.user.image || undefined,
+        theme: session.user.theme || "SYSTEM"
+      }));
     }
   }, [session, dispatch]);
 

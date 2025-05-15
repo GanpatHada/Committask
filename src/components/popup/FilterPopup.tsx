@@ -3,7 +3,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 import { AppDispatch, RootState } from '@/store/store';
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { applyPriorityFilter, applySortFieldFilter, applySortOrderFilter, clearAllFilters, toggleIncludeCompleted } from '@/store/slices/todoSlice';
+import { applyPriorityFilter, applySortFieldFilter, applySortOrderFilter, clearAllFilters} from '@/store/slices/todoSlice';
 import { Priority } from '@/generated/prisma';
 import { RiFlag2Fill } from 'react-icons/ri';
 const priorities = ["LOW", "MEDIUM", "HIGH"]
@@ -103,27 +103,6 @@ const FilterPopup: React.FC<FilterPopupPropType> = ({ filterButtonRef, closePopu
                             </select>
                         </div>
                     </div>
-                </section>
-                <section id="priority" className='mt-4'>
-                    <h3 className='mb-2 text-gray-400 dark:text-zinc-500 text-sm'>STATUS</h3>
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            id='includes-completed'
-                            name="priority"
-                            value={'COMPLETED'}
-                            className="form-checkbox bg:white dark:bg-zinc-500 text-xs"
-                            checked={filter.includeCompleted}
-                            onChange={() => dispatch(toggleIncludeCompleted())}
-
-                        />
-                        <label htmlFor='includes-completed' className="text-sm text-gray-600 dark:text-zinc-400">
-                            include completed
-                        </label>
-                    </div>
-
-
-
                 </section>
 
             </div>

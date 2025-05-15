@@ -118,11 +118,11 @@ export default function Sidebar() {
   };
 
   const todofilters: TodoFilters[] = [
-    { value: 'ALL_TODOS', icon: <ListTodo size={18} />, label: "All Todos" },
+    { value: 'UPCOMMING', icon: <ListTodo size={18} />, label: "Upcomming" },
     { value: 'TODAY', icon: <CalendarClock size={18} />, label: "Today" },
     { value: 'THIS_WEEK', icon: <Calendar1 size={18} />, label: "This Week" },
     { value: 'THIS_MONTH', icon: <CalendarDays size={18} />, label: "This Month" },
-    { value: 'MISSED', icon: <CircleAlert size={18} />, label: "Missed"},
+    { value: 'MISSED', icon: <CircleAlert size={18} />, label: "Past tasks"},
     
   ]
 
