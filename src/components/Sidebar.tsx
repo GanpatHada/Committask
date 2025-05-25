@@ -19,6 +19,8 @@ import { applyDateFilter } from '@/store/slices/todoSlice';
 import { TodoFilterByDateType } from '../../types/todo';
 import { capitalize } from '@/app/globalUtils';
 import { updateTheme } from '@/store/slices/userSlice';
+import { isNotWeekend } from '@/utils/dateHelper';
+
 
 
 const ThemeSelector = () => {
@@ -117,14 +119,19 @@ export default function Sidebar() {
     label: string;
   };
 
-  const todofilters: TodoFilters[] = [
+  const baseFilters: TodoFilters[] = [
     { value: 'UPCOMMING', icon: <ListTodo size={18} />, label: "Upcomming" },
     { value: 'TODAY', icon: <CalendarClock size={18} />, label: "Today" },
     { value: 'THIS_WEEK', icon: <Calendar1 size={18} />, label: "This Week" },
     { value: 'THIS_MONTH', icon: <CalendarDays size={18} />, label: "This Month" },
-    { value: 'MISSED', icon: <CircleAlert size={18} />, label: "Past tasks"},
-    
+    { value: 'MISSED', icon: <CircleAlert size={18} />, label: "Past tasks" },
   ]
+
+  const todoFilters: TodoFilters[] = baseFilters.reduce<TodoFilters[]>((acc, filter) => {
+    if (filter.value === 'THIS_WEEK' && !isNotWeekend()) return acc;
+    return [...acc, filter];
+  }, []);
+
 
 
 
@@ -165,7 +172,7 @@ export default function Sidebar() {
         <p className="uppercase text-xs text-gray-400 px-3 mb-2 dark:text-zinc-500">General</p>
         <nav className="space-y-2 dark:text-zinc-400 text-gray-500">
           {
-            todofilters.map((filter, index) => {
+            todoFilters.map((filter, index) => {
               return <SidebarItem key={index} icon={filter.icon} value={filter.value} label={filter.label} active={currentFilter === filter.value} />
             })
           }

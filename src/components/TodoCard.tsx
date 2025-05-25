@@ -26,7 +26,7 @@ const CompletedStatus: React.FC<CompletedStatusProps> = ({ todoId, completed }) 
 
 
   return (
-    <button onClick={handleTaskStatus} className={`h-4 w-4 border-1 mr-3 ${completed ? "bg-purple-500 border-purple-500" : "border-gray-400 dark:border-zinc-600  bg-transparent"} group-hover:border-white  w-4 rounded-sm`}>
+    <button onClick={handleTaskStatus} className={`h-4 w-4 hover:scale-120 transition-all duration-150 border-1 mr-3 ${completed ? "bg-purple-500 border-purple-500" : "border-gray-400 dark:border-zinc-600  bg-transparent"} group-hover:border-white  w-4 rounded-sm`}>
       {completed && <span className="text-white text-sm"><IoCheckmarkSharp /></span>}
     </button>
   )
