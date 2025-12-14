@@ -16,7 +16,7 @@ datasource db {
 
 enum Theme {
   SYSTEM
-  lIGHT
+  LIGHT
   DARK
 }
 
